@@ -1,0 +1,22 @@
+<header class="bg-dark text-light py-2" style="height: 60px;">
+    <div class="container d-flex">
+        <!-- <h3 class="mb-0">Admin Dashboard</h3> -->
+        <% if (user) { %>
+        <div class="dropdown ms-auto">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Xin chào <%= user.fullname %>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">Thông tin</a></li>
+                <li><a class="dropdown-item" href="/">Trang chủ Web</a></li>
+            </ul>
+        </div>
+        <% } else { %>
+        <!-- Nếu chưa đăng nhập -->
+        <div class="ms-auto">
+            <a class="btn btn-outline-light me-2" href="/login">Login</a>
+            <a class="btn btn-primary me-2" href="/register">Sign Up</a>
+        </div>
+        <% } %>
+    </div>
+</header>

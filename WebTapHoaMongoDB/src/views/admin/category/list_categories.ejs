@@ -1,0 +1,62 @@
+<div class="container mt-2">
+    <h3>List Categories</h3>
+    <div class="row">
+        <div class="col">
+            <a href="/admin/add-category" class="btn btn-primary float-end mb-3">Add Category</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through categories data -->
+                    <% dataCategories.categories.forEach(category => { %>
+                        <tr>
+                            <td><%= category.name %></td>
+                            <td><%= category.description %></td>
+                            <td><img src="<%= category.image %>" alt="Category Image" class="img-thumbnail" style="max-width: 100px;"></td>
+                            <td>
+                                <a href="/admin/edit-category/<%= category._id %>" class="btn btn-primary btn-sm">Edit</a>
+                                <form action="/admin/delete-category/<%= category._id %>" method="POST" style="display: inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                    <!-- End loop -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Pagination -->
+    <div class="row">
+        <div class="col">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <% if (dataCategories.totalPages > 1) { %>
+                        <li class="page-item <% dataCategories.currentPage == 1 ? 'disabled' : '' %>">
+                            <a class="page-link" href="/admin/list-categories?page=<%= dataCategories.currentPage - 1 %>&limit=3" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <% for (let i = 1; i <= dataCategories.totalPages; i++) { %>
+                            <li class="page-item <% dataCategories.currentPage == i ? 'active' : '' %>">
+                                <a class="page-link" href="/admin/list-categories?page=<%= i %>&limit=3"><%= i %></a>
+                            </li>
+                        <% } %>
+                        <li class="page-item <% dataCategories.currentPage == dataCategories.totalPages ? 'disabled' : '' %>">
+                            <a class="page-link" href="/admin/list-categories?page=<%= dataCategories.currentPage + 1 %>&limit=3">Next</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,38 @@
+<!-- Nội dung -->
+<div class="container my-5 home-container">
+    <h3 class="mb-4">Sản phẩm nổi bật</h3>
+    <div class="row home-prodcut-oustanding">
+        <!-- Dùng vòng lặp để hiển thị danh sách sản phẩm -->
+        <% products.forEach(product => { %>
+            <div class="col-lg-2 mb-2">
+                <!-- Sử dụng thẻ 'a' để bọc toàn bộ card -->
+                <a href="/product-detail/<%= product._id %>" class="text-decoration-none text-dark">
+                    <div class="card product-card">
+                        <img src="<%= product.image1 %>" style="height: 200px;" class="card-img-top p-4" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= product.name %></h5>
+                            <!-- Sử dụng bootstrap để hiển thị giá -->
+                            <% if (product.discountedPrice) { %>
+                                <p class="card-text">
+                                    <span class="text-danger fw-bold"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.discountedPrice) %></span>
+                                    <span class="text-decoration-line-through text-muted"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) %></span>
+                                </p>
+                            <% } else { %>
+                                <p class="card-text">$<%= product.price %></p>
+                            <% } %>
+                            <!-- Hiển thị tên danh mục -->
+                            <p class="card-text"><%= product.category.name %></p>
+                            <!-- Nếu sản phẩm là sản phẩm đặc biệt hoặc mới thì hiển thị thêm -->
+                            <% if (product.specialProduct) { %>
+                                <span class="badge bg-danger">Đặc biệt</span>
+                            <% } %>
+                            <% if (product.newProduct) { %>
+                                <span class="badge bg-primary">Mới</span>
+                            <% } %>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <% }) %>
+    </div>
+</div>

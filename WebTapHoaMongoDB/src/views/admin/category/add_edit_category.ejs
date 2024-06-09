@@ -1,0 +1,60 @@
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header"><%= title %></div>
+                <div class="card-body">
+                    <form action="<%= isEdit ? '/admin/edit-category' : '/admin/add-category' %>" method="POST">
+                        <!-- Nếu là chỉnh sửa, thêm trường ẩn để lưu id của danh mục -->
+                        <% if (isEdit) { %>
+                            <input type="hidden" name="categoryId" value="<%= category ? category._id : '' %>">
+                        <% } %>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" value="<%= category ? category.name : '' %>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description"><%= category ? category.description : '' %></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label" id="imageLabel">Image</label>
+                            <input type="file" class="form-control" id="image" name="image" onchange="previewImage(event)">
+                            <!-- Hiển thị trước ảnh -->
+                            <div class="image-preview" id="imagePreview">
+                                <% if (category && category.image) { %>
+                                    <img src="<%= category.image %>" alt="Image Preview" class="preview-image">
+                                <% } else { %>
+                                    <img src="/path/to/default/image.jpg" alt="Image Preview" class="preview-image">
+                                <% } %>
+                                <!-- <span class="image-text">Image Preview</span> -->
+                            </div>
+                        </div>
+                        <!-- Trường ẩn để lưu trữ dữ liệu base64 của ảnh -->
+                        <input type="hidden" id="imageBase64" name="imageBase64" value="<%= category ? category.image : '' %>">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function previewImage(event) {
+        const input = event.target;
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('imagePreview');
+                const previewImage = preview.querySelector('.preview-image');
+                previewImage.src = e.target.result;
+
+                // Convert to base64 and set value for hidden input
+                const imageBase64Input = document.getElementById('imageBase64');
+                imageBase64Input.value = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]); // Convert to data URL
+        }
+    }
+</script>

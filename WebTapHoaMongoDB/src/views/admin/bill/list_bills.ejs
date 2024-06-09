@@ -1,0 +1,59 @@
+<div class="container mt-2">
+    <h3>List Bills</h3>
+    <!-- Table of Bills -->
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Total Price</th>
+                        <th scope="col">Sale Date</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Địa chỉ</th>
+                        <th scope="col">Payment Type</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through bills data -->
+                    <% dataBills.bills.forEach(bill => { %>
+                        <tr>
+                            <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(bill.totalPrice) %></td>
+                            <td><%= bill.saleDate %></td>
+                            <td><%= bill.user.fullname %></td>
+                            <td><%= bill.user.phone %></td>
+                            <td><%= bill.user.address %></td>
+                            <td><%= bill.paymentType %></td>
+                            <td><%= bill.status %></td>
+                        </tr>
+                    <% }) %>
+                    <!-- End loop -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Pagination -->
+    <div class="row">
+        <div class="col">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <% if (dataBills.totalPages > 1) { %>
+                        <li class="page-item <%= dataBills.currentPage == 1 ? 'disabled' : '' %>">
+                            <a class="page-link" href="/admin/list-bills?page=<%= dataBills.currentPage - 1 %>&limit=3" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <% for (let i = 1; i <= dataBills.totalPages; i++) { %>
+                            <li class="page-item <%= dataBills.currentPage == i ? 'active' : '' %>">
+                                <a class="page-link" href="/admin/list-bills?page=<%= i %>&limit=3"><%= i %></a>
+                            </li>
+                        <% } %>
+                        <li class="page-item <%= dataBills.currentPage == dataBills.totalPages ? 'disabled' : '' %>">
+                            <a class="page-link" href="/admin/list-bills?page=<%= dataBills.currentPage + 1 %>&limit=3">Next</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</div>

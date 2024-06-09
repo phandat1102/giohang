@@ -1,0 +1,92 @@
+<div class="container">
+    <h3>List Product</h3>
+    <div class="row">
+        <div class="col">
+            <a href="/admin/add-product" class="btn btn-primary float-end mb-3">Add Product</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Discounted Price</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Manufacture Date</th>
+                        <th scope="col">Special Product</th>
+                        <th scope="col">New Product</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Image 1</th>
+                        <th scope="col">Image 2</th>
+                        <th scope="col">Image 3</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through products data -->
+                    <% dataProducts.products.forEach(product => { %>
+                        <tr>
+                            <td><%= product.name %></td>
+                            <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) %></td>
+                            <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.discountedPrice) %></td>
+                            <td><%= product.category.name %></td>
+                            <td><%= product.manufactureDate %></td>
+                            <td><%= product.specialProduct ? 'Yes' : 'No' %></td>
+                            <td><%= product.newProduct ? 'Yes' : 'No' %></td>
+                            <td class="text-truncate" style="max-width: 100px;"><%= product.description %></td>
+                            <td>
+                                <!-- Display the first image -->
+                                <% if (product.image1) { %>
+                                    <img src="<%= product.image1 %>" alt="Product Image" class="img-thumbnail" style="max-width: 80px;">
+                                <% } %>
+                            </td>
+                            <td>
+                                <!-- Display the second image -->
+                                <% if (product.image2) { %>
+                                    <img src="<%= product.image2 %>" alt="Product Image" class="img-thumbnail" style="max-width: 80px;">
+                                <% } %>
+                            </td>
+                            <td>
+                                <!-- Display the third image -->
+                                <% if (product.image3) { %>
+                                    <img src="<%= product.image3 %>" alt="Product Image" class="img-thumbnail" style="max-width: 80px;">
+                                <% } %>
+                            </td>
+                            <td style="min-width: 120px;">
+                                <a href="/admin/edit-product/<%= product._id %>" class="btn btn-primary btn-sm">Edit</a>
+                                <form action="/admin/delete-product/<%= product._id %>" method="POST" style="display: inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                    <!-- End loop -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Pagination -->
+    <div class="row">
+        <div class="col">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <% if (dataProducts.totalPages > 1) { %>
+                        <li class="page-item <% dataProducts.currentPage == 1 ? 'disabled' : '' %>">
+                            <a class="page-link" href="/admin/list-products?page=<%= dataProducts.currentPage - 1 %>&limit=3" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <% for (let i = 1; i <= dataProducts.totalPages; i++) { %>
+                            <li class="page-item <% dataProducts.currentPage == i ? 'active' : '' %>">
+                                <a class="page-link" href="/admin/list-products?page=<%= i %>&limit=3"><%= i %></a>
+                            </li>
+                        <% } %>
+                        <li class="page-item <% dataProducts.currentPage == dataProducts.totalPages ? 'disabled' : '' %>">
+                            <a class="page-link" href="/admin/list-products?page=<%= dataProducts.currentPage + 1 %>&limit=3">Next</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

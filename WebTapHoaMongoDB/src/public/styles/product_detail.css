@@ -1,0 +1,56 @@
+.product-detail-container .thumbnail-container {
+    border: 1px solid #ccc;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin: 0 150px;
+}
+
+.product-detail-container .thumbnail-column img {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+
+.product-detail-container .item-slide-product{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-detail-container .img-big {
+    max-width: 500px;
+    height: 500px;
+    padding: 40px;
+}
+
+.product-detail-container .btn-control {
+    color: black;
+    background-color: black;
+}
+
+.product-detail-container .discounted-price {
+    font-size: 25px;
+    font-weight: 700;
+}
+
+/* hiệu ứng trượt slide */
+.product-detail-container .carousel-item {
+    transition: transform 1s ease; /* Thêm hiệu ứng chuyển động */
+}
+
+.product-detail-container .carousel-item-prev,
+.product-detail-container .carousel-item-next,
+.product-detail-container .carousel-item.active {
+    display: block;
+}
+
+.product-detail-container .carousel-inner {
+    overflow: hidden; /* Ẩn phần tử nằm ngoài phạm vi */
+}
+
+.product-detail-container .slide-content {
+    border: 2px solid #F1F3F4;
+    border-radius: 5px;
+}

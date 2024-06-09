@@ -1,0 +1,88 @@
+<div class="container my-5 product-detail-container">
+    <div class="row">
+        <!-- Phần hiển thị ảnh sản phẩm -->
+        <div class="col-md-6">
+            <div class="slide-content">
+                <!-- Carousel để hiển thị ảnh -->
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+                    <div class="carousel-inner">
+                        <!-- Ảnh 1 -->
+                        <div class="carousel-item active">
+                            <div class="item-slide-product">
+                                <img src="<%= product.image1 %>" class="d-block w-100 img-big" alt="Image 1">
+                            </div>
+                        </div>
+                        <!-- Ảnh 2 -->
+                        <div class="carousel-item">
+                            <div class="item-slide-product">
+                                <img src="<%= product.image2 %>" class="d-block w-100 img-big" alt="Image 2">
+                            </div>
+                        </div>
+                        <!-- Ảnh 3 -->
+                        <div class="carousel-item">
+                            <div class="item-slide-product">
+                                <img src="<%= product.image3 %>" class="d-block w-100 img-big" alt="Image 3">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Nút chuyển đổi -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon btn-control" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon btn-control" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Phần hiển thị các ảnh nhỏ -->
+            <h6 class="text-center mt-3">Tất cả ảnh</h6>
+            <div class="thumbnail-container mt-2">
+                <!-- Ảnh 1 -->
+                <div class="thumbnail-column">
+                    <img src="<%= product.image1 %>" class="thumbnail-image active" data-slide-to="0" alt="Thumbnail 1">
+                </div>
+                <!-- Ảnh 2 -->
+                <div class="thumbnail-column">
+                    <img src="<%= product.image2 %>" class="thumbnail-image" data-slide-to="1" alt="Thumbnail 2">
+                </div>
+                <!-- Ảnh 3 -->
+                <div class="thumbnail-column">
+                    <img src="<%= product.image3 %>" class="thumbnail-image" data-slide-to="2" alt="Thumbnail 3">
+                </div>
+            </div>
+        </div>
+        <!-- Phần thông tin chi tiết sản phẩm -->
+        <div class="col-md-6">
+            <h2><%= product.name %></h2>
+            <!-- Giá -->
+            <% if (product.discountedPrice) { %>
+                <p class="fw-bold">
+                    <span class="price"><del><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) %></del></span>
+                    <span class="text-danger discounted-price"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.discountedPrice) %></span>
+                </p>
+            <% } else { %>
+                <p><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) %></p>
+            <% } %>
+            <!-- Danh mục -->
+            <p><%= product.category.name %></p>
+            <!-- Sản phẩm đặc biệt -->
+            <% if (product.specialProduct) { %>
+                <p><span class="badge bg-danger">Đặc biệt</span></p>
+            <% } %>
+            <!-- Sản phẩm mới -->
+            <% if (product.newProduct) { %>
+                <p><span class="badge bg-primary">Mới</span></p>
+            <% } %>
+            <!-- Ngày sản xuất -->
+            <p>Ngày sản xuất: <%= product.manufactureDate.toLocaleDateString() %></p>
+            <!-- Mô tả -->
+            <p><%= product.description %></p>
+            <div class="mt-5">
+                <a href="/add-item/<%= product._id %>" class="btn btn-primary">Mua ngay - Freeship</a>
+            </div>
+        </div>
+    </div>
+</div>

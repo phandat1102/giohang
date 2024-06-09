@@ -1,0 +1,143 @@
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="">
+            <div class="card">
+                <div class="card-header"><%= title %></div>
+                <div class="card-body">
+                    <form action="<%= isEdit ? '/admin/edit-product' : '/admin/add-product' %>" method="POST">
+                        <!-- Nếu là chỉnh sửa, thêm trường ẩn để lưu id của sản phẩm -->
+                        <% if (isEdit) { %>
+                            <input type="hidden" name="productId" value="<%= product ? product._id : '' %>">
+                        <% } %>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" value="<%= product ? product.name : '' %>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="category" class="form-label">Category</label>
+                                    <select class="form-select" id="category" name="categoryId" required>
+                                        <% categories.forEach(category => { %>
+                                            <option value="<%= category._id %>" <%= product && product.category && product.category._id.toString() === category._id.toString() ? 'selected' : '' %>><%= category.name %></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="price" class="form-label">Price</label>
+                                    <input type="number" class="form-control" id="price" name="price" value="<%= product ? product.price : '' %>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="discountedPrice" class="form-label">Discounted Price</label>
+                                    <input type="number" class="form-control" id="discountedPrice" name="discountedPrice" value="<%= product ? product.discountedPrice : '' %>">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="manufactureDate" class="form-label">Manufacture Date</label>
+                                    <input type="date" class="form-control" id="manufactureDate" name="manufactureDate" value="<%= product ? product.manufactureDate.toISOString().split('T')[0] : '' %>">
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="specialProduct" name="specialProduct" <%= product && product.specialProduct ? 'checked' : '' %>>
+                                    <label class="form-check-label" for="specialProduct">Special Product</label>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="newProduct" name="newProduct" <%= product && product.newProduct ? 'checked' : '' %>>
+                                    <label class="form-check-label" for="newProduct">New Product</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-6">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea type="text" class="form-control" id="description" name="description"><%= product ? product.description : '' %></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="image1" class="form-label">Image 1</label>
+                                    <input type="file" class="form-control" id="image1" name="image1" onchange="previewImage(event, '1')">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="image2" class="form-label">Image 2</label>
+                                    <input type="file" class="form-control" id="image2" name="image2" onchange="previewImage(event, '2')">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="image3" class="form-label">Image 3</label>
+                                    <input type="file" class="form-control" id="image3" name="image3" onchange="previewImage(event, '3')">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <!-- Hiển thị trước ảnh -->
+                            <div class="image-preview col-md-4" id="imagePreview1">
+                                <% if (product && product.image1) { %>
+                                    <img src="<%= product.image1 %>" alt="Image 1 Preview" class="preview-image">
+                                <% } else { %>
+                                    <img src="/path/to/default/image.jpg" alt="Image 1 Preview" class="preview-image">
+                                <% } %>
+                            </div>
+                            <div class="image-preview col-md-4" id="imagePreview2">
+                                <% if (product && product.image2) { %>
+                                    <img src="<%= product.image2 %>" alt="Image 2 Preview" class="preview-image">
+                                <% } else { %>
+                                    <img src="/path/to/default/image.jpg" alt="Image 2 Preview" class="preview-image">
+                                <% } %>
+                            </div>
+                            <div class="image-preview col-md-4" id="imagePreview3">
+                                <% if (product && product.image3) { %>
+                                    <img src="<%= product.image3 %>" alt="Image 3 Preview" class="preview-image">
+                                <% } else { %>
+                                    <img src="/path/to/default/image.jpg" alt="Image 3 Preview" class="preview-image">
+                                <% } %>
+                            </div>
+                        </div>
+                        <input type="hidden" id="imageBase641" name="imageBase641" value="<%= product ? product.image1 : '' %>">
+                        <input type="hidden" id="imageBase642" name="imageBase642" value="<%= product ? product.image2 : '' %>">
+                        <input type="hidden" id="imageBase643" name="imageBase643" value="<%= product ? product.image3 : '' %>">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function previewImage(event, imageId) {
+        const input = event.target;
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById(`imagePreview${imageId}`);
+                if (preview) {
+                    const previewImage = preview.querySelector('.preview-image');
+                    if (previewImage) {
+                        previewImage.src = e.target.result;
+                    } else {
+                        console.error('Preview image element not found');
+                    }
+                } else {
+                    console.error('Preview element not found');
+                }
+                
+                // Chuyển đổi hình ảnh thành chuỗi base64
+                const base64String = e.target.result;
+                // Gán chuỗi base64 vào trường ẩn để gửi đi khi submit form
+                const hiddenInput = document.getElementById(`imageBase64${imageId}`);
+                hiddenInput.value = base64String;
+            }
+            reader.readAsDataURL(input.files[0]); // Convert to data URL
+        }
+    }
+</script>
+
+
+

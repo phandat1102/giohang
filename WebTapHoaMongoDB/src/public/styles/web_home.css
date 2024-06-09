@@ -1,0 +1,19 @@
+.home-container .home-prodcut-oustanding .product-card {
+    /* Định dạng chung cho thẻ product-card */
+    transition: box-shadow 0.3s ease; /* Thêm transition để hiệu ứng mượt mà */
+}
+
+.home-container .home-prodcut-oustanding .product-card:hover {
+    /* Hiệu ứng khi hover vào thẻ product-card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Hiệu ứng phóng to ảnh khi hover vào */
+.home-container .home-prodcut-oustanding .product-card img {
+    transition: transform 0.5s ease; /* Thêm transition để hiệu ứng phóng to diễn ra chậm lại và mượt mà */
+}
+
+.home-container .home-prodcut-oustanding .product-card:hover img {
+    transform: scale(1.1); /* Phóng to ảnh lên 110% kích thước ban đầu */
+}
+
